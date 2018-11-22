@@ -1,0 +1,10 @@
+{
+  "/server": {
+    "target": "http://192.168.10.10",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/server": ""
+    }
+  }
+}

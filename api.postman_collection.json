@@ -1,0 +1,269 @@
+{
+	"variables": [],
+	"info": {
+		"name": "api",
+		"_postman_id": "d5aa324b-ce52-a7b2-2ef3-27e5f9519a3d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "usuario visualizar todos",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "usuario visualizar individual",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "usuario cadastrar",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Renan Bertoldo",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "cpf",
+							"value": "111.222.333-00",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "renan8r@gmail.com",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "teste",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "endereco",
+							"value": "Rua Francisco Hrushka, 2070 Tifa Martins",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "usuario editar",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nome",
+							"value": "Renan Rafael Bertoldo",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "cpf",
+							"value": "222.333.444-55",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "renanrafaelbertoldo@gmail.com",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "teste2",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "321",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "endereco",
+							"value": "Florianópolis",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "usuario excluir",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "empresa visualizar todas",
+			"request": {
+				"url": "http://192.168.10.10/api/empresas/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "empresa visualizar individual",
+			"request": {
+				"url": "http://192.168.10.10/api/empresas/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "empresa cadastrar",
+			"request": {
+				"url": "http://192.168.10.10/api/empresas/",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Empresa Teste",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "cnpj",
+							"value": "30.726.264/0001-98",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "endereco",
+							"value": "Rua Francisco Hrushka, 2070 Tifa Martins",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "empresa editar",
+			"request": {
+				"url": "http://192.168.10.10/api/empresas/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nome",
+							"value": "Nova Empresa Teste",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "cnpj",
+							"value": "51.637.287/0001-04",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "endereco",
+							"value": "Florianópolis",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "empresa excluir",
+			"request": {
+				"url": "http://192.168.10.10/api/empresas/2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
