@@ -18,9 +18,9 @@
       <td>{{u.cpf}}</td>
       <td>{{u.email}}</td>
       <td>
-        <button type="button" class="btn btn-primary" routerLink="cadastrar" ><i class="fa fa-eye"></i></button>
-        <button type="button" class="btn btn-warning" routerLink="cadastrar" ><i class="fa fa-edit"></i></button>
-        <button type="button" class="btn btn-danger" (click)="exluirUsuario(u.id)"><i class="fa fa-trash "></i></button>
+        <button type="button" class="btn btn-primary btn-acao" (click)="visualizarUsuario(u)" ><i class="fa fa-eye"></i></button>
+        <button type="button" class="btn btn-warning btn-acao" (click)="editarUsuario(u)" ><i class="fa fa-edit"></i></button>
+        <button type="button" class="btn btn-danger btn-acao" (click)="exluirUsuario(u)"><i class="fa fa-trash "></i></button>
       </td>
     </tr>
   </tbody>

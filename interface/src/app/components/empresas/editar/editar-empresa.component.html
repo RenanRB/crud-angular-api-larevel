@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="empresaForm" novalidate>
+      <div class="form-group">
+        <label class="col-md-4">Nome</label>
+        <input type="text" class="form-control" name="nome" formControlName="nome" #nome/>
+      </div>
+      <div *ngIf="empresaForm.controls['nome'].invalid && (empresaForm.controls['nome'].dirty || empresaForm.controls['nome'].touched)" class="alert alert-danger">
+        <div *ngIf="empresaForm.controls['nome'].errors.required">
+          O campo nome é obrigatório
+        </div>
+        <div *ngIf="empresaForm.controls['nome'].errors.minlength">
+          O campo deve ter pelo menos 3 caracteres
+        </div>
+        <div *ngIf="empresaForm.controls['nome'].errors.maxlength">
+          O campo não deve ter mais que 80 caracteres
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4">CNPJ</label>
+        <input type="text" class="form-control" name="cnpj" formControlName="cnpj" #cnpj mask="00.000.000/0000-00"/>
+      </div>
+      <div *ngIf="empresaForm.controls['cnpj'].invalid && (empresaForm.controls['cnpj'].dirty || empresaForm.controls['cnpj'].touched)" class="alert alert-danger">
+        <div *ngIf="empresaForm.controls['cnpj'].errors.required">
+          O campo CNPJ é obrigatório
+        </div>
+        <div *ngIf="empresaForm.controls['cnpj'].errors.minlength">
+          O campo deve ter 14 digitos
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-md-4">Endereço</label>
+        <textarea class="form-control" name="endereco" formControlName="endereco" #endereco></textarea>
+      </div>
+      <div *ngIf="empresaForm.controls['endereco'].invalid && (empresaForm.controls['endereco'].dirty || empresaForm.controls['endereco'].touched)" class="alert alert-danger">
+        <div *ngIf="empresaForm.controls['endereco'].errors.required">
+          O campo endereço é obrigatório
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button [disabled]="empresaForm.pristine || empresaForm.invalid" float-right class="btn btn-primary" (click)="enviarFormulario()">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

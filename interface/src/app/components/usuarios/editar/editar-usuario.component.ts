@@ -1,32 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import {Router} from '@angular/router';
 import { UsuariosService } from '../../../services/usuarios.service';
-import { EmpresasService } from 'src/app/services/empresas.service';
-import { Empresa } from './../../../models/empresa.model';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-cadastrar-usuario',
-  templateUrl: './cadastrar-usuario.component.html',
-  styleUrls: ['./cadastrar-usuario.component.css']
+  selector: 'app-editar-usuario',
+  templateUrl: './editar-usuario.component.html',
+  styleUrls: ['./editar-usuario.component.css']
 })
-export class CadastrarUsuarioComponent implements OnInit {
+export class EditarUsuarioComponent implements OnInit {
 
   usuarioForm: FormGroup;
-  empresas: Empresa[];
+  id: number;
 
   constructor(private fb: FormBuilder,
-              private router: Router,
               private usuariosService: UsuariosService,
-              private empresasService: EmpresasService) {
-
-    this.empresasService.index().subscribe(data => {
-      this.empresas = data;
+              private router: Router,
+              private ar: ActivatedRoute) {
+    this.ar.params.subscribe( params => {
+      this.id = params.id;
+      this.usuariosService.get(this.id).subscribe( data => {
+        this.usuarioForm.controls.nome.setValue(data.nome);
+        this.usuarioForm.controls.cpf.setValue(data.cpf);
+        this.usuarioForm.controls.email.setValue(data.email);
+        this.usuarioForm.controls.login.setValue(data.login);
+        this.usuarioForm.controls.endereco.setValue(data.endereco);
+      });
     });
-    this.createForm();
   }
 
   ngOnInit() {
+    this.createForm();
   }
 
   createForm() {
@@ -36,13 +40,12 @@ export class CadastrarUsuarioComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.minLength(3),  Validators.maxLength(80)] ],
       login: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(12)] ],
       password: ['', [Validators.required, Validators.maxLength(32)] ],
-      endereco: ['', Validators.required ],
-      empresas: ['', [Validators.required, Validators.pattern('.+')]],
+      endereco: ['', Validators.required ]
    });
   }
 
   enviarFormulario() {
-    this.usuariosService.cadastrar(this.usuarioForm.value)
+    this.usuariosService.editar(this.id, this.usuarioForm.value)
     .subscribe(data => {
       this.router.navigate(['usuarios/']);
     });

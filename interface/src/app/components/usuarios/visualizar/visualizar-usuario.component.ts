@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { ActivatedRoute } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-visualizar-usuario',
@@ -7,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizarUsuarioComponent implements OnInit {
 
-  constructor() { }
+  usuario: Usuario;
+  constructor(private usuariosService: UsuariosService,
+              private ar: ActivatedRoute) {
+    this.ar.params.subscribe( params => {
+      this.usuariosService.get(params.id).subscribe( data => {
+        this.usuario = data;
+      });
+    });
+  }
 
   ngOnInit() {
   }
