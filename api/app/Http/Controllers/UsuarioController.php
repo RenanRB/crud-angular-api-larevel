@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Usuario;
 use App\Empresa;
+use App\EmpresaUsuario;
 
 class UsuarioController extends Controller
 {
@@ -27,10 +28,15 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
-            if ($request->empresas) {
-                $empresa = Empresa::find(1);
-
-                $usuario->empresas()->save($empresa);
+            if ($request->empresas && count($request->empresas)) {
+                foreach ($request->empresas as $empId) {
+                    // $empresa = Empresa::find($empId);
+                    // $usuario->empresas()->save($empresa);
+                    $empresaUsuario = new EmpresaUsuario();
+                    $empresaUsuario->id_empresa = $empId;
+                    $empresaUsuario->id_usuario = $usuario->id;
+                    $empresaUsuario->save();
+                }
             }
 
             return response()->json([
@@ -54,6 +60,13 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
+            if ($request->empresas && count($request->empresas)) {
+                foreach ($empresas as $empId) {
+                    $empresa = Empresa::find($empId);
+                    $usuario->empresas()->save($empresa);
+                }
+            }
+
             return response()->json([
                 'success' => 'Usuário editado com sucesso!',
             ], 201);
