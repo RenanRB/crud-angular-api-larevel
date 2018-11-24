@@ -12,15 +12,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let u of usuarios; let i = index">
+    <tr *ngFor="let usuario of usuarios; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td>{{u.nome}}</td>
-      <td>{{u.cpf}}</td>
-      <td>{{u.email}}</td>
+      <td>{{usuario.nome}}</td>
+      <td>{{usuario?.cpf | mask: '000.000.000-00'}}</td>
+      <td>{{usuario.email}}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-acao" (click)="visualizarUsuario(u)" ><i class="fa fa-eye"></i></button>
-        <button type="button" class="btn btn-warning btn-acao" (click)="editarUsuario(u)" ><i class="fa fa-edit"></i></button>
-        <button type="button" class="btn btn-danger btn-acao" (click)="exluirUsuario(u)"><i class="fa fa-trash "></i></button>
+        <button type="button" class="btn btn-primary btn-acao" (click)="visualizarUsuario(usuario)" ><i class="fa fa-eye"></i></button>
+        <button type="button" class="btn btn-warning btn-acao" (click)="editarUsuario(usuario)" ><i class="fa fa-edit"></i></button>
+        <button type="button" class="btn btn-danger btn-acao" (click)="exluirUsuario(usuario)"><i class="fa fa-trash "></i></button>
       </td>
     </tr>
   </tbody>

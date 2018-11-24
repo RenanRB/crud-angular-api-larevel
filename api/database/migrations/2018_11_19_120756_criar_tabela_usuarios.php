@@ -10,7 +10,7 @@ class CriarTabelaUsuarios extends Migration {
             $table->increments('id');
             $table->string('nome', 80);
             $table->string('email', 80);
-            $table->string('cpf', 14);
+            $table->string('cpf', 11);
             $table->string('login', 12);
             $table->string('password', 200);
             $table->text('endereco');

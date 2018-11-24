@@ -11,14 +11,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let e of empresas; let i = index">
+    <tr *ngFor="let empresa of empresas; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td>{{e.nome}}</td>
-      <td>{{e.cnpj}}</td>
+      <td>{{empresa.nome}}</td>
+      <td>{{empresa?.cnpj | mask: '00.000.000/0000-00'}}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-acao" (click)="visualizar(e)" ><i class="fa fa-eye"></i></button>
-        <button type="button" class="btn btn-warning btn-acao" (click)="editar(e)" ><i class="fa fa-edit"></i></button>
-        <button type="button" class="btn btn-danger btn-acao" (click)="exluir(e)"><i class="fa fa-trash "></i></button>
+        <button type="button" class="btn btn-primary btn-acao" (click)="visualizar(empresa)" ><i class="fa fa-eye"></i></button>
+        <button type="button" class="btn btn-warning btn-acao" (click)="editar(empresa)" ><i class="fa fa-edit"></i></button>
+        <button type="button" class="btn btn-danger btn-acao" (click)="exluir(empresa)"><i class="fa fa-trash "></i></button>
       </td>
     </tr>
   </tbody>

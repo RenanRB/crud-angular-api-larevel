@@ -87,7 +87,7 @@
 
       <div class="form-group">
         <label class="col-md-4">Empresas</label>
-        <select formControlName="empresasForm" #emp [multiple]="true" class=form-control>
+        <select formControlName="empresas" [multiple]="true" class=form-control>
           <option [value]=""></option>
           <option *ngFor="let empresa of empresas" [value]="empresa.id" selected>{{empresa.nome}}</option>
         </select>

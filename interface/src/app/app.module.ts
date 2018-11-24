@@ -18,7 +18,49 @@ import { EditarEmpresaComponent } from './components/empresas/editar/editar-empr
 import { UsuariosService } from './services/usuarios.service';
 import { EmpresasService } from './services/empresas.service';
 
-import {NgxMaskModule} from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10
+    }
+  },
+  behaviour: {
+    autoHide: 3000,
+    onClick: false,
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 
 @NgModule({
   declarations: [
@@ -37,7 +79,9 @@ import {NgxMaskModule} from 'ngx-mask';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgxSpinnerModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [UsuariosService, EmpresasService],
   bootstrap: [AppComponent]

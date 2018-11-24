@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuariosService } from 'src/app/services/usuarios.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NotifierService } from 'angular-notifier';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
@@ -11,16 +13,23 @@ import { Usuario } from 'src/app/models/usuario.model';
 export class VisualizarUsuarioComponent implements OnInit {
 
   usuario: Usuario;
+  private readonly notifier: NotifierService;
+
   constructor(private usuariosService: UsuariosService,
-              private ar: ActivatedRoute) {
-    this.ar.params.subscribe( params => {
-      this.usuariosService.get(params.id).subscribe( data => {
-        this.usuario = data;
-      });
-    });
+              private ar: ActivatedRoute,
+              private spinner: NgxSpinnerService,
+              private notifierService: NotifierService) {
+    this.ar.params.subscribe(
+      params => this.usuariosService.get(params.id).subscribe(
+        data => this.usuario = data,
+        error => this.notifier.notify( 'error', error.error ),
+        () => this.spinner.hide()
+      )
+    );
   }
 
   ngOnInit() {
+    this.spinner.show();
   }
 
 }

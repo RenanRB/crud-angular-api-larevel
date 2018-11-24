@@ -1,15 +1,17 @@
-<!-- <nav>
-  <a routerLink="/create">create</a>
-  <a routerLink="/edit">edit</a>
-  <a routerLink="/index">index</a>
-</nav> -->
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="#">CRUD</a>
   <div class="navbar-expand mr-auto">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/empresas/">Empresas</a>
-      <a class="nav-item nav-link" routerLink="usuarios/">Usuários</a>
+      <a class="nav-item nav-link" routerLinkActive="active" routerLink="/empresas/">Empresas</a>
+      <a class="nav-item nav-link" routerLinkActive="active" routerLink="usuarios/">Usuários</a>
     </div>
   </div>
 </nav>
+<notifier-container></notifier-container>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-spin-clockwise">
+</ngx-spinner>
 <router-outlet></router-outlet>

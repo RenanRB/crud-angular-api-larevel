@@ -28,11 +28,8 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
-            if ($request->empresas && count($request->empresas)) {
-                foreach ($request->empresas as $empId) {
-                    $empresa = Empresa::find($empId);
-                    $usuario->empresas()->save($empresa);
-                }
+            if (count($request->empresas) && $request->empresas[0]) {
+                $usuario->empresas()->sync($request->empresas);
             }
 
             return response()->json([
@@ -47,7 +44,7 @@ class UsuarioController extends Controller
 
     public function editar(Request $request, $id) {
 
-        $usuario = Usuario::find($id);
+        $usuario = Usuario::with('empresas')->find($id);
         $usuario->nome = $request->nome;
         $usuario->cpf = $request->cpf;
         $usuario->email = $request->email;
@@ -56,11 +53,10 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
-            if ($request->empresas && count($request->empresas)) {
-                foreach ($request->empresas as $empId) {
-                    $empresa = Empresa::find($empId);
-                    $usuario->empresas()->save($empresa);
-                }
+            if (count($request->empresas) && $request->empresas[0]) {
+                $usuario->empresas()->sync($request->empresas);
+            } else {
+                $usuario->empresas()->detach();
             }
 
             return response()->json([

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NotifierService } from 'angular-notifier';
 import { UsuariosService } from '../../../services/usuarios.service';
 import { EmpresasService } from 'src/app/services/empresas.service';
 import { Empresa } from './../../../models/empresa.model';
@@ -14,19 +16,26 @@ export class CadastrarUsuarioComponent implements OnInit {
 
   usuarioForm: FormGroup;
   empresas: Empresa[];
+  private readonly notifier: NotifierService;
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private usuariosService: UsuariosService,
-              private empresasService: EmpresasService) {
+              private empresasService: EmpresasService,
+              private spinner: NgxSpinnerService,
+              private notifierService: NotifierService) {
+    this.notifier = notifierService;
 
-    this.empresasService.index().subscribe(data => {
-      this.empresas = data;
-    });
+    this.empresasService.index().subscribe(
+      data => this.empresas = data,
+      error => this.notifier.notify( 'error', error.error ),
+      () => this.spinner.hide()
+    );
     this.createForm();
   }
 
   ngOnInit() {
+    this.spinner.show();
   }
 
   createForm() {
@@ -42,9 +51,15 @@ export class CadastrarUsuarioComponent implements OnInit {
   }
 
   enviarFormulario() {
+    this.spinner.show();
     this.usuariosService.cadastrar(this.usuarioForm.value)
-    .subscribe(data => {
-      this.router.navigate(['usuarios/']);
-    });
+    .subscribe(
+      (data: any) => {
+        this.router.navigate(['usuarios/']);
+        this.notifier.notify( 'success', data.success );
+      },
+      error => this.notifier.notify( 'error', error.error ),
+      () => this.spinner.hide()
+    );
   }
 }

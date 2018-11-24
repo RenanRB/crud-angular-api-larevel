@@ -6,7 +6,7 @@
     </tr>
     <tr>
       <th>CPF</th>
-      <td>{{usuario?.cpf}}</td>
+      <td>{{usuario?.cpf | mask: '000.000.000-00'}}</td>
     </tr>
     <tr>
       <th>E-mail</th>
@@ -19,6 +19,10 @@
     <tr>
       <th>Endereço</th>
       <td>{{usuario?.endereco}}</td>
+    </tr>
+    <tr>
+      <th>Empresas</th>
+      <td><a *ngFor="let empresa of usuario?.empresas; let i = index" routerLink="/empresas/visualizar/{{empresa.id}}">{{ i > 0 ? ", " : ""}}{{empresa.nome}}</a> </td>
     </tr>
   </tbody>
 </table>

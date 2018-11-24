@@ -6,11 +6,15 @@
     </tr>
     <tr>
       <th>CNPJ</th>
-      <td>{{empresa?.cnpj}}</td>
+      <td>{{empresa?.cnpj | mask: '00.000.000/0000-00'}}</td>
     </tr>
     <tr>
       <th>Endereço</th>
       <td>{{empresa?.endereco}}</td>
+    </tr>
+    <tr>
+      <th>Usuarios</th>
+      <td><a *ngFor="let usuario of empresa?.usuarios; let i = index" routerLink="/usuarios/visualizar/{{usuario.id}}">{{ i > 0 ? ", " : ""}}{{usuario.nome}}</a> </td>
     </tr>
   </tbody>
 </table>

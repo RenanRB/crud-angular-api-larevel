@@ -10,6 +10,7 @@ import { CadastrarEmpresaComponent } from './components/empresas/cadastrar/cadas
 import { IndexEmpresaComponent } from './components/empresas/index/index-empresa.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'empresas', pathMatch: 'full' },
   { path: 'usuarios', component: IndexUsuarioComponent },
   { path: 'usuarios/cadastrar', component: CadastrarUsuarioComponent },
   { path: 'usuarios/visualizar/:id', component: VisualizarUsuarioComponent },

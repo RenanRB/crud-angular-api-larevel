@@ -8,11 +8,11 @@ use App\Empresa;
 class EmpresaController extends Controller
 {
     public function index() {
-        return Empresa::all();
+        return Empresa::with('usuarios')->get();
     }
 
     public function get($id) {
-        return Empresa::find($id);
+        return Empresa::with('usuarios')->find($id);
     }
 
     public function cadastrar(Request $request) {
@@ -23,6 +23,9 @@ class EmpresaController extends Controller
         $empresa->endereco = $request->endereco;
 
         if ($empresa->save()) {
+            if (count($request->usuarios) && $request->usuarios[0]) {
+                $empresa->usuarios()->sync($request->usuarios);
+            }
             return response()->json([
                 'success' => 'Empresa cadastrada com sucesso!',
             ], 201);
@@ -39,8 +42,14 @@ class EmpresaController extends Controller
         $empresa->nome = $request->nome;
         $empresa->cnpj = $request->cnpj;
         $empresa->endereco = $request->endereco;
-        
+
         if ($empresa->save()) {
+            if (count($request->usuarios) && $request->usuarios[0]) {
+                $empresa->usuarios()->sync($request->usuarios);
+            } else {
+                $empresa->usuarios()->detach();
+            }
+
             return response()->json([
                 'success' => 'Empresa editada com sucesso!',
             ], 201);
@@ -53,7 +62,7 @@ class EmpresaController extends Controller
     public function excluir($id) {
 
         $empresa = Empresa::find($id);
-        
+
         if ($empresa->delete()) {
             return response()->json([
                 'success' => 'Empresa excluida com sucesso!',
