@@ -37,7 +37,7 @@ export class CadastrarUsuarioComponent implements OnInit {
       login: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(12)] ],
       password: ['', [Validators.required, Validators.maxLength(32)] ],
       endereco: ['', Validators.required ],
-      empresas: ['', [Validators.required, Validators.pattern('.+')]],
+      empresas: [''],
    });
   }
 

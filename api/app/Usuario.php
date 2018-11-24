@@ -16,7 +16,7 @@ class Usuario extends Model {
     protected $dates =  ['created_at', 'updated_at'];
 
     public function empresas() {
-        return $this->belongsToMany('App\Empresa', 'empresas_usuarios', 'id_empresa', 'id_usuario')
+        return $this->belongsToMany('App\Empresa', 'empresas_usuarios', 'id_usuario', 'id_empresa')
         ->withTimestamps();
     }
 

@@ -14,7 +14,7 @@ class UsuarioController extends Controller
     }
 
     public function get($id) {
-        return Usuario::find($id);
+        return Usuario::with('empresas')->find($id);
     }
 
     public function cadastrar(Request $request) {
@@ -30,12 +30,8 @@ class UsuarioController extends Controller
         if ($usuario->save()) {
             if ($request->empresas && count($request->empresas)) {
                 foreach ($request->empresas as $empId) {
-                    // $empresa = Empresa::find($empId);
-                    // $usuario->empresas()->save($empresa);
-                    $empresaUsuario = new EmpresaUsuario();
-                    $empresaUsuario->id_empresa = $empId;
-                    $empresaUsuario->id_usuario = $usuario->id;
-                    $empresaUsuario->save();
+                    $empresa = Empresa::find($empId);
+                    $usuario->empresas()->save($empresa);
                 }
             }
 
@@ -61,7 +57,7 @@ class UsuarioController extends Controller
 
         if ($usuario->save()) {
             if ($request->empresas && count($request->empresas)) {
-                foreach ($empresas as $empId) {
+                foreach ($request->empresas as $empId) {
                     $empresa = Empresa::find($empId);
                     $usuario->empresas()->save($empresa);
                 }

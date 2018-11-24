@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { UsuariosService } from '../../../services/usuarios.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { EmpresasService } from 'src/app/services/empresas.service';
+import { Empresa } from 'src/app/models/empresa.model';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -12,11 +15,18 @@ export class EditarUsuarioComponent implements OnInit {
 
   usuarioForm: FormGroup;
   id: number;
+  empresas: Empresa[];
 
   constructor(private fb: FormBuilder,
               private usuariosService: UsuariosService,
               private router: Router,
-              private ar: ActivatedRoute) {
+              private ar: ActivatedRoute,
+              private empresasService: EmpresasService) {
+
+    this.empresasService.index().subscribe(data => {
+      this.empresas = data;
+    });
+
     this.ar.params.subscribe( params => {
       this.id = params.id;
       this.usuariosService.get(this.id).subscribe( data => {
@@ -25,6 +35,7 @@ export class EditarUsuarioComponent implements OnInit {
         this.usuarioForm.controls.email.setValue(data.email);
         this.usuarioForm.controls.login.setValue(data.login);
         this.usuarioForm.controls.endereco.setValue(data.endereco);
+        this.usuarioForm.controls.empresasForm.setValue(data.empresas.map((a: any) => a.id));
       });
     });
   }
@@ -39,9 +50,12 @@ export class EditarUsuarioComponent implements OnInit {
       cpf: ['', [Validators.required, Validators.minLength(11),  Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email, Validators.minLength(3),  Validators.maxLength(80)] ],
       login: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(12)] ],
-      password: ['', [Validators.required, Validators.maxLength(32)] ],
-      endereco: ['', Validators.required ]
+      password: ['', [Validators.minLength(3), Validators.maxLength(32)] ],
+      endereco: ['', Validators.required ],
+      empresasForm: [''],
    });
+
+   console.log(this.usuarioForm.get('empresasForm'));
   }
 
   enviarFormulario() {

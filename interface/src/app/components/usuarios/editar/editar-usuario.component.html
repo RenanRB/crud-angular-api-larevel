@@ -86,6 +86,14 @@
       </div>
 
       <div class="form-group">
+        <label class="col-md-4">Empresas</label>
+        <select formControlName="empresasForm" #emp [multiple]="true" class=form-control>
+          <option [value]=""></option>
+          <option *ngFor="let empresa of empresas" [value]="empresa.id" selected>{{empresa.nome}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <button [disabled]="usuarioForm.pristine || usuarioForm.invalid" float-right class="btn btn-primary" (click)="enviarFormulario()">Salvar</button>
       </div>
     </form>
