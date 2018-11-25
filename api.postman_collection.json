@@ -81,6 +81,69 @@
 			"response": []
 		},
 		{
+			"name": "usuario cadastrar com empresa",
+			"request": {
+				"url": "http://192.168.10.10/api/usuarios/",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "Renan Bertoldo",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "cpf",
+							"value": "11122232333",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "renan8r@gmail.com22522",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "teste333152",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "endereco",
+							"value": "Rua Francisco Hrushka, 2070 Tifa Martins",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "empresas[0]",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "empresas[1]",
+							"value": "2",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "usuario editar",
 			"request": {
 				"url": "http://192.168.10.10/api/usuarios/1",
