@@ -41,7 +41,7 @@ export class IndexEmpresaComponent implements OnInit {
       (data: any) => {
         const index = this.empresas.indexOf(empresa);
         this.empresas.splice(index, 1);
-        this.notifier.notify( 'success', data.success );
+        this.notifier.notify( 'success', data.message );
       },
       (error) => {
         this.notifier.notify( 'error', error.error.message );

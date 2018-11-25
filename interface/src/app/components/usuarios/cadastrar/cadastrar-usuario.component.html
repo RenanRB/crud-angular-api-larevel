@@ -73,6 +73,12 @@
         <div *ngIf="usuarioForm.controls['password'].errors.required">
           O campo senha é obrigatório
         </div>
+        <div *ngIf="usuarioForm.controls['login'].errors.minlength">
+          O campo deve ter pelo menos 3 caracteres
+        </div>
+        <div *ngIf="usuarioForm.controls['login'].errors.maxlength">
+          O campo não deve ter mais que 32 caracteres
+        </div>
       </div>
 
       <div class="form-group">

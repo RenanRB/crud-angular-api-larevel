@@ -40,7 +40,7 @@ export class IndexUsuarioComponent implements OnInit {
       (data: any) => {
         const index = this.usuarios.indexOf(usuario);
         this.usuarios.splice(index, 1);
-        this.notifier.notify( 'success', data.success );
+        this.notifier.notify( 'success', data.message );
       },
       (error) => {
         this.notifier.notify( 'error', error.error.message );

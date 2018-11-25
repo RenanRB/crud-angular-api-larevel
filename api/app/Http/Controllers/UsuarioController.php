@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 use App\Usuario;
 use App\Empresa;
 use App\EmpresaUsuario;
@@ -18,6 +19,33 @@ class UsuarioController extends Controller
     }
 
     public function cadastrar(Request $request) {
+        $messages = [
+            'required' => 'O campo :attribute é obrigatório.',
+            'unique' => 'O :attribute já está em uso.',
+            'email' => 'O :attribute não está em um formato válido.',
+            'size' => 'O campo :attribute tem que ter :size digitos.',
+            'min' => 'O campo :attribute tem que ter no minimo :min caracteres.',
+            'max' => 'O campo :attribute tem que ter no máximo :max caracteres.',
+            'numeric' => 'O campo :attribute tem que ser somente números.',
+        ];
+
+        $rules = [
+            'nome' => 'required|min:3|max:80',
+            'cpf' => 'required|numeric|unique:usuarios,cpf|digits:11',
+            'email' => 'required|email|min:3|max:80|unique:usuarios,email',
+            'login' => 'required|min:3|max:12|unique:usuarios,login',
+            'password' => 'required|min:3|max:32',
+            'endereco' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
         $usuario = new Usuario();
 
         $usuario->nome = $request->nome;
@@ -27,17 +55,18 @@ class UsuarioController extends Controller
         $usuario->password = $request->password;
         $usuario->endereco = $request->endereco;
 
-        if ($usuario->save()) {
+        try {
+            $usuario->save();
             if (isset($request->empresas) && count($request->empresas) && $request->empresas[0]) {
                 $usuario->empresas()->sync($request->empresas);
             }
 
             return response()->json([
-                'success' => 'Usuário cadastrado com sucesso!',
+                'message' => 'Usuário cadastrado com sucesso!',
             ], 201);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => ['message' => 'Erro desconhecido!'],
+                'message' => 'Erro ao realizar a inserção no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }
@@ -45,14 +74,45 @@ class UsuarioController extends Controller
     public function editar(Request $request, $id) {
 
         $usuario = Usuario::with('empresas')->find($id);
+
+        $messages = [
+            'required' => 'O campo :attribute é obrigatório.',
+            'unique' => 'O :attribute já está em uso.',
+            'email' => 'O :attribute não está em um formato válido.',
+            'digits' => 'O campo :attribute tem que ter :digits digitos.',
+            'min' => 'O campo :attribute tem que ter no minimo :min caracteres.',
+            'max' => 'O campo :attribute tem que ter no máximo :max caracteres.',
+            'numeric' => 'O campo :attribute tem que ser somente números.',
+        ];
+
+        $rules = [
+            'nome' => 'required|min:3|max:80',
+            'cpf' => 'required|numeric|digits:11|unique:usuarios,cpf,'.$usuario->id,
+            'email' => 'required|email|min:3|max:80|unique:usuarios,email,'.$usuario->id,
+            'login' => 'required|min:3|max:12|unique:usuarios,login,'.$usuario->id  ,
+            'password' => 'nullable|min:3|max:32',
+            'endereco' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
         $usuario->nome = $request->nome;
         $usuario->cpf = $request->cpf;
         $usuario->email = $request->email;
         $usuario->login = $request->login;
-        $usuario->password = $request->password;
+        if ($request->password) {
+            $usuario->password = $request->password;
+        }
         $usuario->endereco = $request->endereco;
 
-        if ($usuario->save()) {
+        try {
+            $usuario->save();
             if (isset($request->empresas) && count($request->empresas) && $request->empresas[0]) {
                 $usuario->empresas()->sync($request->empresas);
             } else {
@@ -60,11 +120,11 @@ class UsuarioController extends Controller
             }
 
             return response()->json([
-                'success' => 'Usuário editado com sucesso!',
+                'message' => 'Usuário editado com sucesso!',
             ], 201);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'message' => 'Erro ao realizar a edição no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }
@@ -73,13 +133,14 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::find($id);
 
-        if ($usuario->delete()) {
+        try {
+            $usuario->delete();
             return response()->json([
-                'success' => 'Usuário excluido com sucesso!',
+                'message' => 'Usuário excluido com sucesso!',
             ], 200);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'message' => 'Erro ao realizar a exclusão no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }

@@ -76,7 +76,7 @@ export class EditarEmpresaComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.router.navigate(['empresas/']);
-        this.notifier.notify( 'success', data.success );
+        this.notifier.notify( 'success', data.message );
         this.spinner.hide();
       },
       (error) => {

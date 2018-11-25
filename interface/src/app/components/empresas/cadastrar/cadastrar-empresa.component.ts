@@ -56,7 +56,7 @@ export class CadastrarEmpresaComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.router.navigate(['empresas/']);
-        this.notifier.notify( 'success', data.success );
+        this.notifier.notify( 'success', data.message );
       },
       (error) => {
         this.notifier.notify( 'error', error.error.message );

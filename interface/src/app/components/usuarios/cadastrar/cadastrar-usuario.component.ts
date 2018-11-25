@@ -29,7 +29,7 @@ export class CadastrarUsuarioComponent implements OnInit {
     this.empresasService.index().subscribe(
       data => this.empresas = data,
       (error) => {
-        this.notifier.notify( 'error', error.error );
+        this.notifier.notify( 'error', error.error.message );
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -47,7 +47,7 @@ export class CadastrarUsuarioComponent implements OnInit {
       cpf: ['', [Validators.required, Validators.minLength(11),  Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email, Validators.minLength(3),  Validators.maxLength(80)] ],
       login: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(12)] ],
-      password: ['', [Validators.required, Validators.maxLength(32)] ],
+      password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)] ],
       endereco: ['', Validators.required ],
       empresas: [''],
    });
@@ -59,7 +59,7 @@ export class CadastrarUsuarioComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.router.navigate(['usuarios/']);
-        this.notifier.notify( 'success', data.success );
+        this.notifier.notify( 'success', data.message );
         this.spinner.hide();
       },
       (error) => {

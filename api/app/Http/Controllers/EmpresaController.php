@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 use App\Empresa;
 
 class EmpresaController extends Controller
@@ -16,22 +17,46 @@ class EmpresaController extends Controller
     }
 
     public function cadastrar(Request $request) {
-        $empresa = new Empresa();
 
+        $messages = [
+            'required' => 'O campo :attribute é obrigatório.',
+            'unique' => 'O :attribute já está em uso.',
+            'digits' => 'O campo :attribute tem que ter :digits digitos.',
+            'min' => 'O campo :attribute tem que ter no minimo :min caracteres.',
+            'max' => 'O campo :attribute tem que ter no máximo :max caracteres.',
+            'numeric' => 'O campo :attribute tem que ser somente números.',
+        ];
+
+        $rules = [
+            'nome' => 'required|min:3|max:80',
+            'cnpj' => 'required|numeric|digits:14|unique:empresas,cnpj',
+            'endereco' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $empresa = new Empresa();
         $empresa->nome = $request->nome;
         $empresa->cnpj = $request->cnpj;
         $empresa->endereco = $request->endereco;
 
-        if ($empresa->save()) {
+        try {
+            $empresa->save();
             if (isset($request->usuarios) && count($request->usuarios) && $request->usuarios[0]) {
                 $empresa->usuarios()->sync($request->usuarios);
             }
             return response()->json([
-                'success' => 'Empresa cadastrada com sucesso!',
+                'message' => 'Empresa cadastrada com sucesso!',
             ], 201);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'message' => 'Erro ao realizar a inserção no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }
@@ -39,11 +64,36 @@ class EmpresaController extends Controller
     public function editar(Request $request, $id) {
 
         $empresa = Empresa::find($id);
+
+        $messages = [
+            'required' => 'O campo :attribute é obrigatório.',
+            'unique' => 'O :attribute já está em uso.',
+            'digits' => 'O campo :attribute tem que ter :digits digitos.',
+            'min' => 'O campo :attribute tem que ter no minimo :min caracteres.',
+            'max' => 'O campo :attribute tem que ter no máximo :max caracteres.',
+            'numeric' => 'O campo :attribute tem que ser somente números.',
+        ];
+
+        $rules = [
+            'nome' => 'required|min:3|max:80',
+            'cnpj' => 'required|numeric|digits:14|unique:empresas,cnpj,'.$empresa->id,
+            'endereco' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
         $empresa->nome = $request->nome;
         $empresa->cnpj = $request->cnpj;
         $empresa->endereco = $request->endereco;
 
-        if ($empresa->save()) {
+        try {
+            $empresa->save();
             if (isset($request->usuarios) && count($request->usuarios) && $request->usuarios[0]) {
                 $empresa->usuarios()->sync($request->usuarios);
             } else {
@@ -51,11 +101,11 @@ class EmpresaController extends Controller
             }
 
             return response()->json([
-                'success' => 'Empresa editada com sucesso!',
+                'message' => 'Empresa editada com sucesso!',
             ], 201);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'message' => 'Erro ao realizar a edição no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }
@@ -63,13 +113,14 @@ class EmpresaController extends Controller
 
         $empresa = Empresa::find($id);
 
-        if ($empresa->delete()) {
+        try {
+            $empresa->delete();
             return response()->json([
-                'success' => 'Empresa excluida com sucesso!',
+                'message' => 'Empresa excluida com sucesso!',
             ], 200);
-        } else {
+        } catch(\Illuminate\Database\QueryException $ex){
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'message' => 'Erro ao realizar a exclusão no banco de dados, caso o problema persista contate o suporte!',
             ], 422);
         }
     }
