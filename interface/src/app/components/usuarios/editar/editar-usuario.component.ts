@@ -30,7 +30,11 @@ export class EditarUsuarioComponent implements OnInit {
 
     this.empresasService.index().subscribe(
       data => this.empresas = data,
-      error => this.notifier.notify( 'error', error.error )
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
     );
 
     this.ar.params.subscribe( params => {
@@ -44,7 +48,10 @@ export class EditarUsuarioComponent implements OnInit {
           this.usuarioForm.controls.endereco.setValue(data.endereco);
           this.usuarioForm.controls.empresas.setValue(data.empresas.map((a: any) => a.id));
         },
-        error => this.notifier.notify( 'error', error.error ),
+        (error) => {
+          this.notifier.notify( 'error', error.error.message );
+          this.spinner.hide();
+        },
         () => this.spinner.hide()
       );
     });
@@ -75,7 +82,10 @@ export class EditarUsuarioComponent implements OnInit {
         this.router.navigate(['usuarios/']);
         this.notifier.notify( 'success', data.success );
       },
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }

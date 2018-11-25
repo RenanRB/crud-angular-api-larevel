@@ -27,7 +27,10 @@ export class IndexEmpresaComponent implements OnInit {
     this.spinner.show();
     this.empresasService.index().subscribe(
       data => this.empresas = data,
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }
@@ -40,7 +43,10 @@ export class IndexEmpresaComponent implements OnInit {
         this.empresas.splice(index, 1);
         this.notifier.notify( 'success', data.success );
       },
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }

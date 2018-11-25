@@ -23,7 +23,7 @@ class EmpresaController extends Controller
         $empresa->endereco = $request->endereco;
 
         if ($empresa->save()) {
-            if (count($request->usuarios) && $request->usuarios[0]) {
+            if (isset($request->usuarios) && count($request->usuarios) && $request->usuarios[0]) {
                 $empresa->usuarios()->sync($request->usuarios);
             }
             return response()->json([
@@ -44,7 +44,7 @@ class EmpresaController extends Controller
         $empresa->endereco = $request->endereco;
 
         if ($empresa->save()) {
-            if (count($request->usuarios) && $request->usuarios[0]) {
+            if (isset($request->usuarios) && count($request->usuarios) && $request->usuarios[0]) {
                 $empresa->usuarios()->sync($request->usuarios);
             } else {
                 $empresa->usuarios()->detach();

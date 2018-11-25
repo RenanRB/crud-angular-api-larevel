@@ -23,7 +23,10 @@ export class VisualizarEmpresaComponent implements OnInit {
     this.ar.params.subscribe(
       params => this.empresasService.get(params.id).subscribe(
         data => this.empresa = data,
-        error => this.notifier.notify( 'error', error.error ),
+        (error) => {
+          this.notifier.notify( 'error', error.error.message );
+          this.spinner.hide();
+        },
         () => this.spinner.hide()
       )
     );

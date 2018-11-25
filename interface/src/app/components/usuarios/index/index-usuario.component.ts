@@ -26,7 +26,10 @@ export class IndexUsuarioComponent implements OnInit {
     this.spinner.show();
     this.usuariosService.index().subscribe(
       data => this.usuarios = data,
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }
@@ -39,7 +42,10 @@ export class IndexUsuarioComponent implements OnInit {
         this.usuarios.splice(index, 1);
         this.notifier.notify( 'success', data.success );
       },
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }

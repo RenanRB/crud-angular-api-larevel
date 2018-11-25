@@ -31,7 +31,11 @@ export class EditarEmpresaComponent implements OnInit {
 
     this.usuariosService.index().subscribe(
       data => this.usuarios = data,
-      error => this.notifier.notify( 'error', error.error )
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
     );
 
     this.ar.params.subscribe( params => {
@@ -43,7 +47,10 @@ export class EditarEmpresaComponent implements OnInit {
           this.empresaForm.controls.endereco.setValue(data.endereco);
           this.empresaForm.controls.usuarios.setValue(data.usuarios.map((a: any) => a.id));
         },
-        error => this.notifier.notify( 'error', error.error ),
+        (error) => {
+          this.notifier.notify( 'error', error.error.message );
+          this.spinner.hide();
+        },
         () => this.spinner.hide()
       );
     });
@@ -70,8 +77,12 @@ export class EditarEmpresaComponent implements OnInit {
       (data: any) => {
         this.router.navigate(['empresas/']);
         this.notifier.notify( 'success', data.success );
+        this.spinner.hide();
       },
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }

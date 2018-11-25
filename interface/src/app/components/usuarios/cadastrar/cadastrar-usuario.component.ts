@@ -28,7 +28,10 @@ export class CadastrarUsuarioComponent implements OnInit {
 
     this.empresasService.index().subscribe(
       data => this.empresas = data,
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
     this.createForm();
@@ -57,8 +60,12 @@ export class CadastrarUsuarioComponent implements OnInit {
       (data: any) => {
         this.router.navigate(['usuarios/']);
         this.notifier.notify( 'success', data.success );
+        this.spinner.hide();
       },
-      error => this.notifier.notify( 'error', error.error ),
+      (error) => {
+        this.notifier.notify( 'error', error.error.message );
+        this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }

@@ -28,7 +28,7 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
-            if (count($request->empresas) && $request->empresas[0]) {
+            if (isset($request->empresas) && count($request->empresas) && $request->empresas[0]) {
                 $usuario->empresas()->sync($request->empresas);
             }
 
@@ -37,7 +37,7 @@ class UsuarioController extends Controller
             ], 201);
         } else {
             return response()->json([
-                'error' => 'Erro desconhecido!',
+                'error' => ['message' => 'Erro desconhecido!'],
             ], 422);
         }
     }
@@ -53,7 +53,7 @@ class UsuarioController extends Controller
         $usuario->endereco = $request->endereco;
 
         if ($usuario->save()) {
-            if (count($request->empresas) && $request->empresas[0]) {
+            if (isset($request->empresas) && count($request->empresas) && $request->empresas[0]) {
                 $usuario->empresas()->sync($request->empresas);
             } else {
                 $usuario->empresas()->detach();
