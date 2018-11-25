@@ -23,7 +23,7 @@ class UsuarioController extends Controller
             'required' => 'O campo :attribute é obrigatório.',
             'unique' => 'O :attribute já está em uso.',
             'email' => 'O :attribute não está em um formato válido.',
-            'size' => 'O campo :attribute tem que ter :size digitos.',
+            'digits' => 'O campo :attribute tem que ter :digits digitos.',
             'min' => 'O campo :attribute tem que ter no minimo :min caracteres.',
             'max' => 'O campo :attribute tem que ter no máximo :max caracteres.',
             'numeric' => 'O campo :attribute tem que ser somente números.',
