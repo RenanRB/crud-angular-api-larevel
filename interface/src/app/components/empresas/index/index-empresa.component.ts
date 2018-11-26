@@ -39,6 +39,7 @@ export class IndexEmpresaComponent implements OnInit {
     this.spinner.show();
     this.empresasService.excluir(empresa.id).subscribe(
       (data: any) => {
+        // Após o servidor remover a empresa é removido também do array de empresas
         const index = this.empresas.indexOf(empresa);
         this.empresas.splice(index, 1);
         this.notifier.notify( 'success', data.message );
@@ -51,10 +52,12 @@ export class IndexEmpresaComponent implements OnInit {
     );
   }
 
+  // Envia para a página de edição
   editar(empresa: Empresa) {
     this.router.navigate(['empresas/editar/' + empresa.id]);
   }
 
+  // Enviap para a página de visualização
   visualizar(empresa: Empresa) {
     this.router.navigate(['empresas/visualizar/' + empresa.id]);
   }

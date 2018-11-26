@@ -34,10 +34,12 @@ export class IndexUsuarioComponent implements OnInit {
     );
   }
 
+  // Exclui o usuário
   exluirUsuario(usuario: Usuario) {
     this.spinner.show();
     this.usuariosService.excluir(usuario.id).subscribe(
       (data: any) => {
+        // Após a exclusão ter sucesso do lado do servidor é removido do array de exibição
         const index = this.usuarios.indexOf(usuario);
         this.usuarios.splice(index, 1);
         this.notifier.notify( 'success', data.message );
@@ -50,10 +52,12 @@ export class IndexUsuarioComponent implements OnInit {
     );
   }
 
+  // Envia para a página de edição
   editarUsuario(usuario: Usuario) {
     this.router.navigate(['usuarios/editar/' + usuario.id]);
   }
 
+  // Envia para a página de visualização
   visualizarUsuario(usuario: Usuario) {
     this.router.navigate(['usuarios/visualizar/' + usuario.id]);
   }

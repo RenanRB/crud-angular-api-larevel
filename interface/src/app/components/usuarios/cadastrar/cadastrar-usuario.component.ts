@@ -26,6 +26,7 @@ export class CadastrarUsuarioComponent implements OnInit {
               private notifierService: NotifierService) {
     this.notifier = notifierService;
 
+    // Carrega as empresas
     this.empresasService.index().subscribe(
       data => this.empresas = data,
       (error) => {
@@ -38,9 +39,11 @@ export class CadastrarUsuarioComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Coloca o spinner enquanto carrega os dados da página
     this.spinner.show();
   }
 
+  // Valida o formulário
   createForm() {
     this.usuarioForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(80)]],

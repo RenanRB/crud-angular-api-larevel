@@ -41,6 +41,7 @@ export class CadastrarEmpresaComponent implements OnInit {
 
   ngOnInit() {}
 
+  // Validação de formulário
   createForm() {
     this.empresaForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(80)]],
@@ -51,6 +52,7 @@ export class CadastrarEmpresaComponent implements OnInit {
   }
 
   enviarFormulario() {
+    // exibe spinner de carregamento
     this.spinner.show();
     this.empresasService.cadastrar(this.empresaForm.value)
     .subscribe(

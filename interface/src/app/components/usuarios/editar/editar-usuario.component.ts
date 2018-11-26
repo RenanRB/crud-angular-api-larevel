@@ -28,6 +28,7 @@ export class EditarUsuarioComponent implements OnInit {
               private notifierService: NotifierService) {
     this.notifier = notifierService;
 
+    // Carrega as empresas
     this.empresasService.index().subscribe(
       data => this.empresas = data,
       (error) => {
@@ -37,6 +38,7 @@ export class EditarUsuarioComponent implements OnInit {
       () => this.spinner.hide()
     );
 
+    // Busca os dados do usuário e insere nos campos
     this.ar.params.subscribe( params => {
       this.id = params.id;
       this.usuariosService.get(this.id).subscribe(
@@ -58,10 +60,12 @@ export class EditarUsuarioComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Coloca o spinner de carregamento e chama o validador do formulário
     this.spinner.show();
     this.createForm();
   }
 
+  // Validação do formulário
   createForm() {
     this.usuarioForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(80)]],

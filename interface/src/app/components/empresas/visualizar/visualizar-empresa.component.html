@@ -13,6 +13,7 @@
       <td>{{empresa?.endereco}}</td>
     </tr>
     <tr>
+      <!-- Caso tenha usuários vinculados a empresa clicando no nome do cliente é redirecionado para o cliente selecionado -->
       <th>Usuarios</th>
       <td><a *ngFor="let usuario of empresa?.usuarios; let i = index" routerLink="/usuarios/visualizar/{{usuario.id}}">{{ i > 0 ? ", " : ""}}{{usuario.nome}}</a> </td>
     </tr>

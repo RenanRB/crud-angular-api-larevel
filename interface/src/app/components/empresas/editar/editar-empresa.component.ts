@@ -29,6 +29,7 @@ export class EditarEmpresaComponent implements OnInit {
               private notifierService: NotifierService) {
     this.notifier = notifierService;
 
+    // carrega usuários
     this.usuariosService.index().subscribe(
       data => this.usuarios = data,
       (error) => {
@@ -38,10 +39,12 @@ export class EditarEmpresaComponent implements OnInit {
       () => this.spinner.hide()
     );
 
+    // Pega o parâmetro do id da empresa
     this.ar.params.subscribe( params => {
       this.id = params.id;
       this.empresasService.get(this.id).subscribe(
         data => {
+          // Atualiza o valor dos campos com o retorno do servidor
           this.empresaForm.controls.nome.setValue(data.nome);
           this.empresaForm.controls.cnpj.setValue(data.cnpj);
           this.empresaForm.controls.endereco.setValue(data.endereco);
@@ -61,6 +64,7 @@ export class EditarEmpresaComponent implements OnInit {
     this.createForm();
   }
 
+  // Validação dos campos
   createForm() {
     this.empresaForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3),  Validators.maxLength(80)]],
